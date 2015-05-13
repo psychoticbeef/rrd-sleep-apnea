@@ -10,8 +10,8 @@ class Entry {
 	function __construct ($d, $m, $y, $rdi, $leakage, $pressure, $time_slept) {
 		$this->date = new DateTime();
 		$this->date->setDate((int)$y, (int)$m, (int)$d);
-		$this->rdi = $rdi;
-		$this->leakage = $leakage;
+		$this->rdi = trim(str_replace(',', '.', $rdi));
+		$this->leakage = trim(str_replace(',', '.', $leakage));
 		$this->pressure = $pressure;
 		$this->time_slept = $time_slept;
 	}
@@ -20,8 +20,19 @@ class Entry {
 		return $this->time_slept > 240;
 	}
 
+	public function getTimestamp() {
+		return $this->date->getTimestamp();
+	}
+
+	/*
+'DS:time_slept:GAUGE:86400:0:1440' \
+	'DS:rdi_hour:GAUGE:86400:0:100' \
+		'DS:p90_hpa:GAUGE:86400:0:20' \
+			'DS:leakage_percent:GAUGE:86400:0:100' \
+	 */
+
 	public function __toString() {
-		return $this->date->format('Y M D') . ' ' . $this->time_slept . ' ' . $this->leakage;
+		return implode(':', array($this->date->getTimestamp(), $this->time_slept, $this->rdi, $this->pressure, $this->leakage));
 	}
 	
 }
@@ -60,4 +71,12 @@ foreach ($csv as $entry) {
 	echo $e . PHP_EOL;
 }
 
+usort($entries, function($a, $b) {
+	return $a->getTimestamp() > $b->getTimestamp();
+});
+
+foreach ($entries as $e) {
+	//echo 'rrdtool update apnea.rrd ' . $e . PHP_EOL;
+	shell_exec('rrdtool update apnea.rrd ' . $e);
+}
 echo sizeof($entries);
