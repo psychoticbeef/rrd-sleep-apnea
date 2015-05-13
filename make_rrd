@@ -1,0 +1,17 @@
+rrdtool create apnea.rrd \
+--step '86400' \
+--start '1404172800' \
+'DS:time_slept:GAUGE:86400:0:1440' \
+'DS:rdi_hour:GAUGE:86400:0:100' \
+'DS:p90_hpa:GAUGE:86400:0:20' \
+'DS:leakage_percent:GAUGE:86400:0:100' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365' \
+'RRA:AVERAGE:0.5:1:365'
