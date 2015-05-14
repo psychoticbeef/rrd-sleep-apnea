@@ -1,15 +1,57 @@
-rrdtool graph 'apnea-m.png' \
---title 'Apnoe' \
---width '400' \
---height '100' \
---start end-1m \
-'DEF:time_slept=apnea.rrd:time_slept:AVERAGE' \
-'DEF:rdi_hour=apnea.rrd:rdi_hour:AVERAGE' \
-'DEF:p90_hpa=apnea.rrd:p90_hpa:AVERAGE' \
-'DEF:leakage_percent=apnea.rrd:leakage_percent:AVERAGE' \
-'LINE1:time_slept#0033FF:Time Slept (minutes)' \
-'LINE1:rdi_hour#00CCFF:RDI / hour' \
-'LINE1:p90_hpa#FF3300:P90 (hPa)' \
-'LINE1:leakage_percent#FFCC00:Leakage (%)'
+COLOR="-c BACK#111111 -c CANVAS#000000 -c SHADEA#444444 -c SHADEB#666666 -c GRID#3c3c3c -c MGRID#732828 -c ARROW#732828 -c FONT#AC6E31"
 
-# --start end-1y \
+rrdtool graph 'apnea-p.png' \
+--title 'Apnoe' \
+--width '1095' \
+--height '250' \
+--start end-1y \
+--slope-mode \
+-v 'hPa' \
+$COLOR --disable-rrdtool-tag \
+'DEF:p90_hpa=apnea.rrd:p90_hpa:AVERAGE' \
+'LINE1:p90_hpa#D8CD95:>P90' \
+CDEF:smooth=p90_hpa,604800,TREND \
+'LINE1:smooth#942F37:(trend)'
+
+
+rrdtool graph 'apnea-s.png' \
+--title 'Apnoe' \
+--width '1095' \
+--height '250' \
+--start end-1y \
+--slope-mode \
+-v 'minutes' \
+$COLOR --disable-rrdtool-tag \
+'DEF:time_slept=apnea.rrd:time_slept:AVERAGE' \
+'LINE1:time_slept#D8CD95:Time Slept' \
+CDEF:smooth=time_slept,604800,TREND \
+'LINE1:smooth#942F37:(trend)'
+
+
+rrdtool graph 'apnea-r.png' \
+--title 'Apnoe' \
+--width '1095' \
+--height '250' \
+--start end-1y \
+--slope-mode \
+-v 'per Hour' \
+$COLOR --disable-rrdtool-tag \
+'DEF:rdi_hour=apnea.rrd:rdi_hour:AVERAGE' \
+'LINE1:rdi_hour#D8CD95:Respiratory disturbance index' \
+CDEF:smooth=rdi_hour,604800,TREND \
+'LINE1:smooth#942F37:(trend)'
+
+
+rrdtool graph 'apnea-l.png' \
+--title 'Apnoe' \
+--width '1095' \
+--height '250' \
+--start end-1y \
+--slope-mode \
+-v 'Percent' \
+$COLOR --disable-rrdtool-tag \
+'DEF:leakage_percent=apnea.rrd:leakage_percent:AVERAGE' \
+'LINE1:leakage_percent#D8CD95:Leakage' \
+CDEF:smooth=leakage_percent,604800,TREND \
+'LINE1:smooth#942F37:(trend)'
+
