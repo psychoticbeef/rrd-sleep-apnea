@@ -10,6 +10,7 @@ class Entry {
 	function __construct ($d, $m, $y, $rdi, $leakage, $pressure, $time_slept) {
 		$this->date = new DateTime();
 		$this->date->setDate((int)$y, (int)$m, (int)$d);
+		$this->date->setTime(0, 0, 0);
 		$this->rdi = trim(str_replace(',', '.', $rdi));
 		$this->leakage = trim(str_replace(',', '.', $leakage));
 		$this->pressure = $pressure;

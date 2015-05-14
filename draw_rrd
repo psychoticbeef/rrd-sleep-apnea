@@ -1,13 +1,13 @@
 rrdtool graph 'apnea-m.png' \
 --title 'Apnoe' \
---width '1600' \
---height '400' \
+--width '400' \
+--height '100' \
 --start end-1m \
-'DEF:time_slept=apnoe.rrd:time_slept:AVERAGE' \
-'DEF:rdi_hour=apnoe.rrd:rdi_hour:AVERAGE' \
-'DEF:p90_hpa=apnoe.rrd:p90_hpa:AVERAGE' \
-'DEF:leakage_percent=apnoe.rrd:leakage_percent:AVERAGE' \
-'LINE1:time_slept#0033FF:Time Slept (hours)' \
+'DEF:time_slept=apnea.rrd:time_slept:AVERAGE' \
+'DEF:rdi_hour=apnea.rrd:rdi_hour:AVERAGE' \
+'DEF:p90_hpa=apnea.rrd:p90_hpa:AVERAGE' \
+'DEF:leakage_percent=apnea.rrd:leakage_percent:AVERAGE' \
+'LINE1:time_slept#0033FF:Time Slept (minutes)' \
 'LINE1:rdi_hour#00CCFF:RDI / hour' \
 'LINE1:p90_hpa#FF3300:P90 (hPa)' \
 'LINE1:leakage_percent#FFCC00:Leakage (%)'
